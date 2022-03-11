@@ -1,8 +1,14 @@
 # Go Library
-## A library management API written in GO.
+## 📚 A library management API written in GO. 📚
 The goal of this project was to get familiar with writing APIs in Go and 
 connecting them to a database. As I am a lover of literature, I themed the
 API as a simple library inventory management tool.
+
+This project utlizies the CRUD framework:
+- **C**reate -> a new book entry
+- **R**ead -> all of the books in the library (or just one)
+- **U**pdate -> the data of a given book
+- **D**elete -> a book from the library
 
 ## Requirements
 Go 1.17
@@ -45,3 +51,9 @@ Folder | Description
 [MySql](https://www.mysql.com/) - For a free, open-source database
 
 [MySQLWorkbench](https://www.mysql.com/products/workbench/) - For a free, open-source database visualizer
+
+## Further Improvements
+There are several improvements that could be made to this project:
+- Add global configuration variables to make it easier to integrate with any database.
+- Expand the Book model to include more information about the book.
+- Create additional endpoints to allow for more queries by the user (query by Title, Genre, Author, etc)
