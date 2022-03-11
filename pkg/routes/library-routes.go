@@ -7,9 +7,9 @@ import (
 )
 
 var RegisterLibraryRoutes = func(router *mux.Router) {
-	router.HandleFunc("/book/", controllers.CreateBook).Methods("POST")
-	router.HandleFunc("/book/", controllers.GetBooks).Methods("GET")
-	router.HandleFunc("/book/{bookId}", controllers.GetBookById).Methods("GET")
-	router.HandleFunc("/book/{bookId}", controllers.UpdateBook).Methods("PUT")
-	router.HandleFunc("/book/{bookId}", controllers.DeleteBook).Methods("DELETE")
+	router.HandleFunc("/api/v1/book/", controllers.CreateBook).Methods("POST")
+	router.HandleFunc("/api/v1/book/", controllers.GetBooks).Methods("GET")
+	router.HandleFunc("/api/v1/book/{bookId}", controllers.GetBookById).Methods("GET")
+	router.HandleFunc("/api/v1/book/{bookId}", controllers.UpdateBook).Methods("PUT")
+	router.HandleFunc("/api/v1/book/{bookId}", controllers.DeleteBook).Methods("DELETE")
 }
