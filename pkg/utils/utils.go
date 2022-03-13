@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"testing"
 )
 
 // ParseBody takes the body from an HTTP request and unmarshals the JSON.
@@ -32,4 +33,11 @@ func ParseIdAsInt(bookId string) int64 {
 		fmt.Println("error while parsing")
 	}
 	return ID
+}
+
+// CheckResponseCode returns an error if the given expected response does not match the actual response
+func CheckResponseCode(t *testing.T, expected, actual int) {
+	if expected != actual {
+		t.Errorf("handler returned wrong status code: got %v want %v", expected, actual)
+	}
 }
