@@ -4,8 +4,10 @@ package utils
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/gorilla/mux"
 	"io/ioutil"
 	"net/http"
+	"net/http/httptest"
 	"strconv"
 	"testing"
 )
@@ -19,7 +21,7 @@ func ParseBody(r *http.Request, x interface{}) {
 	}
 }
 
-// WriteJSON sets the http status and writes/responds with the given JSON object
+// WriteJSON sets the http status and writes/responds with the given JSON object.
 func WriteJSON(w http.ResponseWriter, res []byte) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
@@ -35,9 +37,15 @@ func ParseIdAsInt(bookId string) int64 {
 	return ID
 }
 
-// CheckResponseCode returns an error if the given expected response does not match the actual response
+// CheckResponseCode returns an error if the given expected response does not match the actual response.
 func CheckResponseCode(t *testing.T, expected, actual int) {
 	if expected != actual {
 		t.Errorf("handler returned wrong status code: got %v want %v", expected, actual)
 	}
+}
+
+// NewRequest returns an HTTP request with added path variables.
+func NewRequest(method, path string, vars map[string]string) *http.Request {
+	r := httptest.NewRequest(method, path, nil)
+	return mux.SetURLVars(r, vars)
 }

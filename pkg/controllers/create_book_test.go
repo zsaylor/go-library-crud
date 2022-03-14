@@ -30,7 +30,7 @@ func TestCreateBook(t *testing.T) {
 		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusOK)
 	}
 
-
+	// Check that returned book has the correct fields
 	var expected map[string]interface{}
 	json.Unmarshal(rr.Body.Bytes(), &expected)
 

@@ -6,7 +6,9 @@ import (
 	"github.com/gorilla/mux"
 	"go-library/pkg/models"
 	"go-library/pkg/utils"
+	"log"
 	"net/http"
+	"strconv"
 )
 
 // GetBooks gets all the books from the database and writes them back as a JSON.
@@ -19,9 +21,12 @@ func GetBooks(w http.ResponseWriter, r *http.Request) {
 // GetBookById receives an ID via request call and returns a JSON object of the book with the corresponding ID.
 func GetBookById(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	bookId := vars["bookId"]
-	ID := utils.ParseIdAsInt(bookId)
-	bookDetails, _ := models.GetBookById(ID)
+	ID, err := strconv.Atoi(vars["bookId"])
+	if err != nil {
+		log.Fatalf("invalid book ID: got %v want 1\n MUX VARS: %v", ID, vars)
+	}
+	//ID := utils.ParseIdAsInt(bookId)
+	bookDetails, _ := models.GetBookById(int64(ID))
 	res, _ := json.Marshal(bookDetails)
 	utils.WriteJSON(w, res)
 }
