@@ -2,6 +2,7 @@
 package models
 
 import (
+	"errors"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
@@ -50,12 +51,18 @@ func GetAllBooks() []Book {
 func GetBookById(Id int64) (*Book, *gorm.DB) {
 	var getBook Book
 	db := db.Where("ID=?", Id).Find(&getBook)
+	if errors.Is(db.Error, gorm.ErrRecordNotFound) {
+		return nil, nil
+	}
 	return &getBook, db
 }
 
 // DeleteBook finds and deletes a book with the given ID.
-func DeleteBook(ID int64) Book {
+func DeleteBook(ID int64) *Book {
 	var book Book
-	db.Where("ID=?", ID).Delete(book)
-	return book
+	db.Where("ID=?", ID).Delete(&book)
+	if errors.Is(db.Error, gorm.ErrRecordNotFound) {
+		return nil
+	}
+	return &book
 }

@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"strconv"
+	"strings"
 	"testing"
 )
 
@@ -45,7 +46,7 @@ func CheckResponseCode(t *testing.T, expected, actual int) {
 }
 
 // NewRequest returns an HTTP request with added path variables.
-func NewRequest(method, path string, vars map[string]string) *http.Request {
-	r := httptest.NewRequest(method, path, nil)
+func NewRequest(method, path, body string, vars map[string]string) *http.Request {
+	r := httptest.NewRequest(method, path, strings.NewReader(body))
 	return mux.SetURLVars(r, vars)
 }

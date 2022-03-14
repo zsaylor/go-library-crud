@@ -6,7 +6,6 @@ import (
 	"github.com/gorilla/mux"
 	"go-library/pkg/models"
 	"go-library/pkg/utils"
-	"log"
 	"net/http"
 	"strconv"
 )
@@ -21,13 +20,17 @@ func GetBooks(w http.ResponseWriter, r *http.Request) {
 // GetBookById receives an ID via request call and returns a JSON object of the book with the corresponding ID.
 func GetBookById(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	ID, err := strconv.Atoi(vars["bookId"])
-	if err != nil {
-		log.Fatalf("invalid book ID: got %v want 1\n MUX VARS: %v", ID, vars)
-	}
-	//ID := utils.ParseIdAsInt(bookId)
-	bookDetails, _ := models.GetBookById(int64(ID))
+	bookId := vars["bookId"]
+	ID := utils.ParseIdAsInt(bookId)
+	bookDetails, _ := models.GetBookById(ID)
 	res, _ := json.Marshal(bookDetails)
+	if bookDetails == nil {
+		errPayload := map[string]string{"error": "no book found with id '"+strconv.Itoa(int(ID))+"'"}
+		response, _ := json.Marshal(errPayload)
+		w.WriteHeader(400)
+		w.Write(response)
+		return
+	}
 	utils.WriteJSON(w, res)
 }
 
@@ -46,6 +49,13 @@ func DeleteBook(w http.ResponseWriter, r *http.Request) {
 	bookId := vars["bookId"]
 	ID := utils.ParseIdAsInt(bookId)
 	book := models.DeleteBook(ID)
+	if book == nil {
+		errPayload := map[string]string{"error": "no book found with id '"+strconv.Itoa(int(ID))+"'"}
+		response, _ := json.Marshal(errPayload)
+		w.WriteHeader(400)
+		w.Write(response)
+		return
+	}
 	res, _ := json.Marshal(book)
 	utils.WriteJSON(w, res)
 }
