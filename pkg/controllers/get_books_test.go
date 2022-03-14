@@ -25,7 +25,7 @@ func TestGetBooks(t *testing.T) {
 	}
 
 	// Check that we get the expected response body
-	expected := `[{"Name":"Gravity's Rainbow","author":"Thomas Pynchon","publisher":"Vintage","genre":"World Historical Literature"}]`
+	expected := `[{"id":1,"name":"Gravity's Rainbow","author":"Thomas Pynchon","publisher":"Vintage","genre":"World Historical Literature"}]`
 	if rr.Body.String() != expected {
 		t.Errorf("handler returned unexpected body: got %v want %v", rr.Body.String(), expected)
 	}
